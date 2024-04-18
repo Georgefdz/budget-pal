@@ -1,42 +1,157 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+
+.main-container {
+  display: grid;
+  border: 2px solid red;
+  min-height: 100vh;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 3fr 4fr 4fr;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid black;
+  grid-column: 1 / 3;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.expenses-container {
+  margin:  50px 80px;
+  /* border: 3px solid green; */
+  grid-column: 1 / 2;
+  grid-row: 2 / 4;
+}
+
+.graphs-container {
+  /* border: 3px solid hsl(304, 94%, 53%); */
+  grid-column: 2 / 3;
+  grid-row: 2 / 4;
+  background-image: url(./assets/pieChart.svg);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: center;
+}
+
+.main-title {
+  color: black;
+  margin: 30px;
+}
+
+.form-container {
+  display: flex;
+  align-items: self-end;
+}
+
+.date-form {
+  margin-bottom: 50px;
+  margin-left: -600px;
+}
+
+.date-form label {
+  opacity: .4;
+  margin: 0px 50px;
+  padding: 10px;
+}
+
+.date-form select {
+  margin: 5px 20px;
+  padding: 7.5px 20px;
+  border-radius: 20px;
+  box-shadow: gray 2px 3px; 
+}
+
+.add-expense-container {
+  display: flex;
+  align-items: center;
+}
+
+.add-expense-btn {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  font-size: 48px;
+  color: white;
+  background-color: #00587D;
+  border: none;
+  align-items: center;
+}
+
+.add-expense-container h3 {
+  margin: 10px;
+  padding: 10px;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.modal-container {
+  display: flex;
+  position: absolute;
+  margin: 15vh 25vw;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.modal {
+  display: flex;
+  background-color: hsl(0, 100%, 99%);
+  border: 2px solid #007DB3;
+  min-width: 40vw;
+  min-height: 70vh;
+  justify-content: center;
+  border-radius: 15px;
+  box-shadow: #00587D 10px 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.modal form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.card {
-  padding: 2em;
+.modal h2 {
+  margin-bottom: 40px;
 }
 
-.read-the-docs {
-  color: #888;
+.modal form select,
+.modal form input,
+.modal form button {
+  margin: 10px 0px;
+  padding: 10px 20px;
+}
+
+.modal label {
+  opacity: .4;
+}
+
+.modal form button {
+  box-shadow: #00587D 2px 3px;
+  background-color: #007DB3;
+  color: white; 
+  font-weight: 600;
+}
+
+
+.expense-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+  justify-items: center;
+  border-bottom: 1px solid red;
+  padding: 5px;
+  padding-top: 20px;
+}
+
+#amount {
+  grid-column: 1 / 2;
+}
+
+#category {
+  grid-column: 2 / 3;
+}
+
+#date {
+  grid-column: 3 / 4;
+}
+
+.amount-input-field::before {
+  content: '$';
+  position: absolute;
 }
