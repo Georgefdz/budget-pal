@@ -5,9 +5,31 @@ function AddExpense({ isOpen, onClose, onAddExpense }) {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
 
-  const handleSubmit = (event) => {
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   onAddExpense({ amount, category, date });
+  // };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    onAddExpense({ amount, category, date });
+    try {
+      const response = await fetch("http://localhost:3000/expenses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount, category, date }),
+      });
+      if (response.ok) {
+        const newExpense = await response.json();
+        console.log("Expense was added successfully: ", newExpense);
+        onClose();
+      } else {
+        throw new Error("Failed to add expense");
+      }
+    } catch (error) {
+      console.error("Error adding expense: ", error);
+    }
   };
 
   if (!isOpen) {
