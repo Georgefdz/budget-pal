@@ -1,4 +1,27 @@
-function Header({ onAddExpense, onCategoryChange, selectedCategory }) {
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+function Header({
+  onAddExpense,
+  onCategoryChange,
+  selectedCategory,
+  onDateFilterChange,
+  selectedDateOption,
+  startDate,
+  endDate,
+  onDateRangeChange,
+}) {
+  const [calendarVisible, setCalendarVisible] = useState(false);
+
+  const toggleCalendar = () => {
+    setCalendarVisible(!calendarVisible);
+  };
+
+  const handleCloseCalendar = () => {
+    setCalendarVisible(false);
+  };
+
   return (
     <>
       <div className="header-container">
@@ -6,11 +29,43 @@ function Header({ onAddExpense, onCategoryChange, selectedCategory }) {
         <div className="form-container">
           <form action="" className="date-form">
             <label htmlFor="date">Date</label>
-            <select name="date" id="date">
-              <option value="day">Day</option>
-              <option value="week">Week</option>
-              <option value="month">Month</option>
+            <select
+              name="date"
+              id="date"
+              value={selectedDateOption}
+              onChange={(e) => {
+                onDateFilterChange(e.target.value);
+                if (e.target.value === "custom") {
+                  toggleCalendar();
+                } else {
+                  handleCloseCalendar();
+                }
+              }}
+            >
+              <option value="all">All Time</option>
+              <option value="day">Today</option>
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+              <option value="custom">Choose a Date</option>
             </select>
+            <div
+              className={`calendar-modal ${!calendarVisible ? "hidden" : ""}`}
+            >
+              <div id="close-calendar" onClick={handleCloseCalendar}>
+                x
+              </div>
+              {calendarVisible && (
+                <DatePicker
+                  selected={startDate}
+                  onChange={(update) => onDateRangeChange(update)}
+                  startDate={startDate}
+                  endDate={endDate}
+                  selectsRange
+                  inline
+                />
+              )}
+            </div>
+
             <label htmlFor="category">Category</label>
             <select
               name="category"

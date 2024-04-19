@@ -16,6 +16,29 @@
   padding: 20px;
 }
 
+.calendar-modal {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  padding: 5px;
+  padding-top: 25px;
+  margin-top: 10px;
+  background-color: hsl(0, 100%, 99%);
+  border: 2px solid #007DB3;
+  border-radius: 15px;
+  box-shadow: #00587D 5px 5px;
+}
+
+.calendar-modal.hidden {
+  display: none;
+}
+
+#close-calendar {
+  position: absolute;
+  top: 0px;
+  left: 15px;
+}
+
 .expenses-container {
   margin:  50px 80px;
   /* border: 3px solid green; */

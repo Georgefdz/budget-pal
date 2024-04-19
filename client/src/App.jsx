@@ -5,11 +5,20 @@ import Header from "./Header";
 import Expenses from "./Expenses";
 import Graphs from "./Graphs";
 import AddExpense from "./AddExpense";
+import dayjs from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [expenses, setExpenses] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedDateOption, setSelectedDateOption] = useState("all");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -67,11 +76,46 @@ function App() {
     setSelectedCategory(category);
   };
 
-  const filteredExpenses = expenses.filter((expense) => {
-    // console.log(selectedCategory);
-    // console.log(expense.category);
-    return selectedCategory === "all" || expense.category === selectedCategory;
-  });
+  const handleDateFilterChange = (option) => {
+    setSelectedDateOption(option);
+  };
+
+  const handleDateRangeChange = ([start, end]) => {
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+  const onCloseCalendar = () => {
+    setSelectedDateOption("all");
+  };
+
+  const filteredExpenses = expenses
+    .filter((expense) => {
+      // console.log(selectedCategory);
+      // console.log(expense.category);
+      const expenseDate = dayjs(expense.date);
+      const now = dayjs();
+      switch (selectedDateOption) {
+        case "day":
+          return expenseDate.isSame(now, "day");
+        case "week":
+          return expenseDate.isSame(now, "week");
+        case "month":
+          return expenseDate.isSame(now, "month");
+        case "custom":
+          return (
+            (!startDate || expenseDate.isSameOrAfter(dayjs(startDate))) &&
+            (!endDate || expenseDate.isSameOrBefore(dayjs(endDate)))
+          );
+        default:
+          return true;
+      }
+    })
+    .filter((expense) => {
+      return (
+        selectedCategory === "all" || expense.category === selectedCategory
+      );
+    });
 
   return (
     <>
@@ -80,6 +124,12 @@ function App() {
           onAddExpense={handleModalOpen}
           onCategoryChange={handleCategoryChange}
           selectedCategory={selectedCategory}
+          onDateFilterChange={handleDateFilterChange}
+          selectedDateOption={selectedDateOption}
+          startDate={startDate}
+          endDate={endDate}
+          onDateRangeChange={handleDateRangeChange}
+          onCloseCalendar={onCloseCalendar}
         />
         <Expenses expenses={filteredExpenses} />
         <Graphs />
