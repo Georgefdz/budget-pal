@@ -8,7 +8,11 @@ router.get('/', (req, res) => {
 
 router.get('/expenses', async (req, res) => {
   try {
-    const expenses = await Expense.findAll();
+    const expenses = await Expense.findAll({
+      order: [
+        ['date', 'DESC']
+      ]
+    });
     res.json(expenses);
   } catch (error) {
     res.status(500).json({ message: "Cannot get expenses", error: error.message });
