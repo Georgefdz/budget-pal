@@ -1,4 +1,4 @@
-function Header({ onAddExpense }) {
+function Header({ onAddExpense, onCategoryChange, selectedCategory }) {
   return (
     <>
       <div className="header-container">
@@ -12,11 +12,16 @@ function Header({ onAddExpense }) {
               <option value="month">Month</option>
             </select>
             <label htmlFor="category">Category</label>
-            <select name="category" id="category">
+            <select
+              name="category"
+              id="category"
+              value={selectedCategory}
+              onChange={(e) => onCategoryChange(e.target.value)}
+            >
               <option value="all">All</option>
-              <option value="entertainment">Entertainment</option>
-              <option value="transport">Transport</option>
-              <option value="food">Food</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Transport">Transport</option>
+              <option value="Food">Food</option>
             </select>
           </form>
         </div>

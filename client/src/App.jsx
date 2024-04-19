@@ -9,6 +9,7 @@ import AddExpense from "./AddExpense";
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [expenses, setExpenses] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -62,11 +63,25 @@ function App() {
     }
   };
 
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const filteredExpenses = expenses.filter((expense) => {
+    // console.log(selectedCategory);
+    // console.log(expense.category);
+    return selectedCategory === "all" || expense.category === selectedCategory;
+  });
+
   return (
     <>
       <div className="main-container">
-        <Header onAddExpense={handleModalOpen} />
-        <Expenses expenses={expenses} />
+        <Header
+          onAddExpense={handleModalOpen}
+          onCategoryChange={handleCategoryChange}
+          selectedCategory={selectedCategory}
+        />
+        <Expenses expenses={filteredExpenses} />
         <Graphs />
         <AddExpense
           isOpen={isModalOpen}
