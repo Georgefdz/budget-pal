@@ -30,4 +30,21 @@ router.post('/expenses', async (req, res) => {
   }
 });
 
+router.delete('/expenses/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await Expense.destroy({
+      where: { id }
+    });
+    if (result === 1) {
+      res.status(200).send({ message: "Expense deleted successfully" });
+    } else {
+      res.status(404).send({ message: "Expense not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting expense", error: error.message });
+  }
+});
+
+
 module.exports = router;

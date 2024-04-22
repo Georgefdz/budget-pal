@@ -1,6 +1,23 @@
 import removeIcon from "./assets/remove.png";
 
-function Expenses({ expenses }) {
+function Expenses({ expenses, onDeleteExpense }) {
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this expense?")) {
+      try {
+        const response = await fetch(`http://localhost:3000/expenses/${id}`, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          onDeleteExpense(id);
+        } else {
+          alert("Failed to delete expense.");
+        }
+      } catch (error) {
+        console.error("Error deleting expense: ", error);
+      }
+    }
+  };
+
   return (
     <>
       <div className="expenses-container">
@@ -13,7 +30,8 @@ function Expenses({ expenses }) {
               <img
                 src={removeIcon}
                 alt="Remove"
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "10px", cursor: "pointer" }}
+                onClick={() => handleDelete(expense.id)}
                 className="removeIcon"
               />{" "}
             </p>

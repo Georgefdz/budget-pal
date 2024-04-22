@@ -89,6 +89,14 @@ function Header({
             <br /> Expense
           </h3>
         </div>
+        <div className="bottom-nav-container">
+          <div className="bottom-nav">
+            <p>General</p>
+          </div>
+          <div className="bottom-nav">
+            <p>Recurring</p>
+          </div>
+        </div>
       </div>
     </>
   );

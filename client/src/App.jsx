@@ -89,6 +89,10 @@ function App() {
     setSelectedDateOption("all");
   };
 
+  const handleDeleteExpense = (id) => {
+    setExpenses(expenses.filter((expense) => expense.id !== id));
+  };
+
   const filteredExpenses = expenses
     .filter((expense) => {
       // console.log(selectedCategory);
@@ -131,7 +135,10 @@ function App() {
           onDateRangeChange={handleDateRangeChange}
           onCloseCalendar={onCloseCalendar}
         />
-        <Expenses expenses={filteredExpenses} />
+        <Expenses
+          expenses={filteredExpenses}
+          onDeleteExpense={handleDeleteExpense}
+        />
         <Graphs expenses={filteredExpenses} />
         <AddExpense
           isOpen={isModalOpen}
