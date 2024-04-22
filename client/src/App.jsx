@@ -132,7 +132,7 @@ function App() {
           onCloseCalendar={onCloseCalendar}
         />
         <Expenses expenses={filteredExpenses} />
-        <Graphs />
+        <Graphs expenses={filteredExpenses} />
         <AddExpense
           isOpen={isModalOpen}
           onClose={handleModalClose}

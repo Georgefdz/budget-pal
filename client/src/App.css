@@ -1,3 +1,9 @@
+:root {
+  --primary: #00587D;
+  --secondary: #007db3;
+  --tertiary: #BFECFF;
+}
+
 
 .main-container {
   display: grid;
@@ -50,10 +56,9 @@
   /* border: 3px solid hsl(304, 94%, 53%); */
   grid-column: 2 / 3;
   grid-row: 2 / 4;
-  background-image: url(./assets/pieChart.svg);
-  background-repeat: no-repeat;
-  background-size: 60%;
-  background-position: center;
+  min-width: 70%;
+  /* min-height: auto; */
+  margin: auto;
 }
 
 .main-title {
@@ -171,10 +176,27 @@
 }
 
 #date {
+  display: flex;
   grid-column: 3 / 4;
 }
+
+#date:hover .removeIcon{
+  display: block;
+}
+
 
 .amount-input-field::before {
   content: '$';
   position: absolute;
+}
+
+.removeIcon {
+  display: none;
+  width: 20px;
+  height: 20px;
+  grid-column: 3 / 4
+}
+
+.removeIcon:hover {
+  display: block;
 }

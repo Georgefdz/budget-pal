@@ -1,30 +1,35 @@
 const { Sequelize, DataTypes } = require('sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  dialect: 'postgres',
-});
+const sequelize = new Sequelize(
+  process.env.DB_DATABASE,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'postgres',
+  },
+);
 
 const Expense = sequelize.define('Expense', {
   amount: {
     type: DataTypes.FLOAT,
-    allowNull: false
+    allowNull: false,
   },
   category: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   date: {
     type: DataTypes.DATEONLY,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 }, {
-  timestamps: false
+  timestamps: false,
 });
 
 sequelize.sync();
 
 module.exports = {
-  Expense
+  Expense,
 };
