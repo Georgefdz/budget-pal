@@ -24,11 +24,15 @@ const Expense = sequelize.define('Expense', {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
+  isRecurring: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  }
 }, {
   timestamps: false,
 });
 
-sequelize.sync();
+sequelize.sync({alter: true});
 
 module.exports = {
   Expense,

@@ -16,14 +16,15 @@ router.get('/expenses', async (req, res) => {
     });
     res.json(expenses);
   } catch (error) {
+    console.error("Error retrieving expenses:", error);
     res.status(500).json({ message: 'Cannot get expenses', error: error.message });
   }
 });
 
 router.post('/expenses', async (req, res) => {
   try {
-    const { amount, category, date } = req.body;
-    const newExpense = await Expense.create({ amount, category, date });
+    const { amount, category, date, isRecurring } = req.body;
+    const newExpense = await Expense.create({ amount, category, date, isRecurring });
     res.status(201).json(newExpense);
   } catch (error) {
     res.status(500).json({ message: 'Cannot post expenses', error: error.message });

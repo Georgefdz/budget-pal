@@ -1,6 +1,8 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import categoryColors from "./config/categoryColors";
+import bgCategoryColors from "./config/bgCategoryColors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -48,22 +50,12 @@ function Graphs({ expenses }) {
       {
         label: "Expenses by Category $",
         data: Object.values(categories),
-        backgroundColor: [
-          "#00587D",
-          "#007db3",
-          "#bfecff",
-          "#4BC0C0",
-          "#9966FF",
-          "#FF9F40",
-        ],
-        hoverBackgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#4BC0C0",
-          "#9966FF",
-          "#FF9F40",
-        ],
+        backgroundColor: Object.keys(categories).map(
+          (cat) => categoryColors[cat]
+        ),
+        hoverBackgroundColor: Object.keys(categories).map(
+          (cat) => bgCategoryColors[cat]
+        ),
         total: totalAmount.toFixed(2),
       },
     ],

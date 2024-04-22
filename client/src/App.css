@@ -10,7 +10,7 @@
   border: 2px solid red;
   min-height: 100vh;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 3fr 4fr 4fr;
+  grid-template-rows: 300px 2fr 2fr;
 }
 
 .header-container {
@@ -27,6 +27,7 @@
   display: flex;
   position: absolute;
   bottom: 0;
+  z-index: -1;
 }
 
 .bottom-nav {
@@ -57,6 +58,7 @@
   border: 2px solid #007DB3;
   border-radius: 15px;
   box-shadow: #00587D 5px 5px;
+  z-index: 1;
 }
 
 .calendar-modal.hidden {
@@ -71,9 +73,17 @@
 
 .expenses-container {
   margin:  50px 80px;
+  position: sticky;
   /* border: 3px solid green; */
   grid-column: 1 / 2;
   grid-row: 2 / 4;
+  height: 55vh;
+  overflow: scroll;
+  background-color: hsl(0, 100%, 99%);
+}
+
+.expenses-container::-webkit-scrollbar {
+  display: none;
 }
 
 .graphs-container {
@@ -194,10 +204,21 @@
 
 #amount {
   grid-column: 1 / 2;
+  grid-row: 1 / 2;
 }
 
+
+
 #category {
+  display: flex;
+  align-items: center;
+  justify-self: flex-start;
   grid-column: 2 / 3;
+}
+
+#category span {
+  display: flex;
+  justify-self: flex-start;
 }
 
 #date {
@@ -215,11 +236,18 @@
   position: absolute;
 }
 
+.recurringIcon {
+  width: 20px;
+  height: 20px;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
 .removeIcon {
   display: none;
   width: 20px;
   height: 20px;
-  grid-column: 3 / 4
+  grid-column: 3 / 4;
 }
 
 .removeIcon:hover {

@@ -11,6 +11,7 @@ function Header({
   startDate,
   endDate,
   onDateRangeChange,
+  onToggleRecurring,
 }) {
   const [calendarVisible, setCalendarVisible] = useState(false);
 
@@ -90,10 +91,10 @@ function Header({
           </h3>
         </div>
         <div className="bottom-nav-container">
-          <div className="bottom-nav">
+          <div className="bottom-nav" onClick={() => onToggleRecurring(false)}>
             <p>General</p>
           </div>
-          <div className="bottom-nav">
+          <div className="bottom-nav" onClick={() => onToggleRecurring(true)}>
             <p>Recurring</p>
           </div>
         </div>

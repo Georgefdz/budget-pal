@@ -19,14 +19,15 @@ function App() {
   const [selectedDateOption, setSelectedDateOption] = useState("all");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [showRecurring, setShowRecurring] = useState(false);
 
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
         const response = await fetch("http://localhost:3000/expenses");
         if (response.ok) {
-          const fetchExpenses = await response.json();
-          setExpenses(fetchExpenses);
+          const fetchedExpenses = await response.json();
+          setExpenses(fetchedExpenses);
         } else {
           throw new Error("Failed to fetch expenses");
         }
@@ -46,10 +47,13 @@ function App() {
     setIsModalOpen(false);
   };
 
-  // const addExpense = (expense) => {
-  //   setExpenses([...expenses, expense]);
-  //   handleModalClose();
-  // };
+  const handleToggleSwitch = (isRecurring) => {
+    setShowRecurring(isRecurring);
+  };
+
+  const displayedExpenses = showRecurring
+    ? expenses.filter((expense) => expense.isRecurring)
+    : expenses;
 
   const addExpense = async (expense) => {
     try {
@@ -65,7 +69,8 @@ function App() {
         setExpenses([...expenses, newExpense]);
         handleModalClose();
       } else {
-        throw new Error("Failed to add expense");
+        const errorResponse = await response.json();
+        throw new Error(`Failed to add expense: ${errorResponse.message}`);
       }
     } catch (error) {
       console.error("Error adding expense: ", error);
@@ -94,6 +99,9 @@ function App() {
   };
 
   const filteredExpenses = expenses
+    .filter((expense) => {
+      return showRecurring ? expense.isRecurring : true;
+    })
     .filter((expense) => {
       // console.log(selectedCategory);
       // console.log(expense.category);
@@ -134,6 +142,7 @@ function App() {
           endDate={endDate}
           onDateRangeChange={handleDateRangeChange}
           onCloseCalendar={onCloseCalendar}
+          onToggleRecurring={handleToggleSwitch}
         />
         <Expenses
           expenses={filteredExpenses}

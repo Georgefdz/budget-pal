@@ -4,24 +4,22 @@ function AddExpense({ isOpen, onClose, onAddExpense }) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   onAddExpense({ amount, category, date });
-  // };
+  const [isRecurring, setIsRecurring] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      const expense = { amount, category, date, isRecurring };
       const response = await fetch("http://localhost:3000/expenses", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ amount, category, date }),
+        body: JSON.stringify(expense),
       });
       if (response.ok) {
         const newExpense = await response.json();
+        onAddExpense(newExpense);
         console.log("Expense was added successfully: ", newExpense);
         onClose();
       } else {
@@ -69,6 +67,12 @@ function AddExpense({ isOpen, onClose, onAddExpense }) {
             value={date}
             onChange={(e) => setDate(e.target.value)}
             required
+          />
+          <label htmlFor="recurring">Recurring</label>
+          <input
+            type="checkbox"
+            checked={isRecurring}
+            onChange={(e) => setIsRecurring(e.target.checked)}
           />
           <button type="submit">Add Expense</button>
           <button onClick={onClose}>Cancel</button>

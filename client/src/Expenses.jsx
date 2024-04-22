@@ -1,4 +1,7 @@
 import removeIcon from "./assets/remove.png";
+import recurringIcon from "./assets/recurring.png";
+import categoryColors from "./config/categoryColors";
+import bgCategoryColors from "./config/bgCategoryColors";
 
 function Expenses({ expenses, onDeleteExpense }) {
   const handleDelete = async (id) => {
@@ -23,8 +26,28 @@ function Expenses({ expenses, onDeleteExpense }) {
       <div className="expenses-container">
         {expenses.map((expense, index) => (
           <div key={index} className="expense-items">
+            {expense.isRecurring && (
+              <img
+                src={recurringIcon}
+                alt="Recurring"
+                style={{ marginRight: "60px", cursor: "pointer" }}
+                className="recurringIcon"
+              />
+            )}
             <p id="amount">${expense.amount}</p>
-            <p id="category">{expense.category}</p>
+            <p id="category">
+              <span
+                style={{
+                  height: "20px",
+                  width: "20px",
+                  backgroundColor: categoryColors[expense.category],
+                  display: "inline-block",
+                  borderRadius: "50%",
+                  marginRight: "5px",
+                }}
+              ></span>
+              {expense.category}
+            </p>
             <p id="date">
               {expense.date}{" "}
               <img
