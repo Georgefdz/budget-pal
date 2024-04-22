@@ -2,8 +2,13 @@ import removeIcon from "./assets/remove.png";
 import recurringIcon from "./assets/recurring.png";
 import categoryColors from "./config/categoryColors";
 import bgCategoryColors from "./config/bgCategoryColors";
+import { useEffect } from "react";
 
 function Expenses({ expenses, onDeleteExpense }) {
+  useEffect(() => {
+    console.log("Expenses updated:", expenses);
+  }, [expenses]);
+
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this expense?")) {
       try {
@@ -46,7 +51,8 @@ function Expenses({ expenses, onDeleteExpense }) {
                   marginRight: "5px",
                 }}
               ></span>
-              {expense.category}
+              {/* {expense.category} */}
+              {expense.concept}
             </p>
             <p id="date">
               {expense.date}{" "}

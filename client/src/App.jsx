@@ -27,6 +27,7 @@ function App() {
         const response = await fetch("http://localhost:3000/expenses");
         if (response.ok) {
           const fetchedExpenses = await response.json();
+          console.log(fetchedExpenses);
           setExpenses(fetchedExpenses);
         } else {
           throw new Error("Failed to fetch expenses");
@@ -47,13 +48,13 @@ function App() {
     setIsModalOpen(false);
   };
 
-  const handleToggleSwitch = (isRecurring) => {
-    setShowRecurring(isRecurring);
+  const handleToggleGeneral = () => {
+    setShowRecurring(false);
   };
 
-  const displayedExpenses = showRecurring
-    ? expenses.filter((expense) => expense.isRecurring)
-    : expenses;
+  const handleToggleRecurring = () => {
+    setShowRecurring(true);
+  };
 
   const addExpense = async (expense) => {
     try {
@@ -66,14 +67,14 @@ function App() {
       });
       if (response.ok) {
         const newExpense = await response.json();
-        setExpenses([...expenses, newExpense]);
+        setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
         handleModalClose();
       } else {
         const errorResponse = await response.json();
         throw new Error(`Failed to add expense: ${errorResponse.message}`);
       }
     } catch (error) {
-      console.error("Error adding expense: ", error);
+      console.error("Er ror adding expense: ", error);
     }
   };
 
@@ -100,11 +101,6 @@ function App() {
 
   const filteredExpenses = expenses
     .filter((expense) => {
-      return showRecurring ? expense.isRecurring : true;
-    })
-    .filter((expense) => {
-      // console.log(selectedCategory);
-      // console.log(expense.category);
       const expenseDate = dayjs(expense.date);
       const now = dayjs();
       switch (selectedDateOption) {
@@ -127,7 +123,11 @@ function App() {
       return (
         selectedCategory === "all" || expense.category === selectedCategory
       );
-    });
+    })
+    .filter((expense) => (showRecurring ? expense.isRecurring : true));
+
+  console.log("Filtered Expenses: ", filteredExpenses);
+  console.log("Show Recurring State: ", showRecurring);
 
   return (
     <>
@@ -142,7 +142,8 @@ function App() {
           endDate={endDate}
           onDateRangeChange={handleDateRangeChange}
           onCloseCalendar={onCloseCalendar}
-          onToggleRecurring={handleToggleSwitch}
+          onToggleGeneral={handleToggleGeneral}
+          onToggleRecurring={handleToggleRecurring}
         />
         <Expenses
           expenses={filteredExpenses}

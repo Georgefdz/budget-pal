@@ -5,11 +5,14 @@ function AddExpense({ isOpen, onClose, onAddExpense }) {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
   const [isRecurring, setIsRecurring] = useState(false);
+  const [concept, setConcept] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log("Form submission has started");
     try {
-      const expense = { amount, category, date, isRecurring };
+      const expense = { concept, amount, category, date, isRecurring };
+      console.log("Sending expense: ", expense);
       const response = await fetch("http://localhost:3000/expenses", {
         method: "POST",
         headers: {
@@ -19,7 +22,6 @@ function AddExpense({ isOpen, onClose, onAddExpense }) {
       });
       if (response.ok) {
         const newExpense = await response.json();
-        onAddExpense(newExpense);
         console.log("Expense was added successfully: ", newExpense);
         onClose();
       } else {
@@ -39,6 +41,16 @@ function AddExpense({ isOpen, onClose, onAddExpense }) {
       <div className="modal">
         <form onSubmit={handleSubmit}>
           <h2>Add Expense:</h2>
+          <label htmlFor="concept">Concept</label>
+          <input
+            type="text"
+            id="concept"
+            value={concept}
+            onChange={(e) => setConcept(e.target.value)}
+            placeholder="Add Concept..."
+            required
+            className="concept-input-field"
+          />
           <label htmlFor="amount">Amount</label>
           <input
             type="number"

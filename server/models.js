@@ -12,6 +12,10 @@ const sequelize = new Sequelize(
 );
 
 const Expense = sequelize.define('Expense', {
+  concept: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   amount: {
     type: DataTypes.FLOAT,
     allowNull: false,
