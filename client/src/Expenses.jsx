@@ -1,13 +1,15 @@
 import removeIcon from "./assets/remove.png";
 import recurringIcon from "./assets/recurring.png";
-import categoryColors from "./config/categoryColors";
-import bgCategoryColors from "./config/bgCategoryColors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-function Expenses({ expenses, onDeleteExpense }) {
+function Expenses({ expenses, categoriesWithColors, onDeleteExpense }) {
   useEffect(() => {
     console.log("Expenses updated:", expenses);
   }, [expenses]);
+
+  const getCategoryColor = (category) => {
+    return categoriesWithColors[category]?.color || "#000000";
+  };
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this expense?")) {
@@ -35,7 +37,7 @@ function Expenses({ expenses, onDeleteExpense }) {
               <img
                 src={recurringIcon}
                 alt="Recurring"
-                style={{ marginRight: "60px", cursor: "pointer" }}
+                style={{ marginRight: "90px", cursor: "pointer" }}
                 className="recurringIcon"
               />
             )}
@@ -45,7 +47,7 @@ function Expenses({ expenses, onDeleteExpense }) {
                 style={{
                   height: "20px",
                   width: "20px",
-                  backgroundColor: categoryColors[expense.category],
+                  backgroundColor: getCategoryColor(expense.category),
                   display: "inline-block",
                   borderRadius: "50%",
                   marginRight: "5px",

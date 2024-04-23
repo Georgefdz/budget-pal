@@ -23,8 +23,8 @@ router.get('/expenses', async (req, res) => {
 
 router.post('/expenses', async (req, res) => {
   try {
-    const { concept, amount, category, date, isRecurring } = req.body;
-    const newExpense = await Expense.create({ concept, amount, category, date, isRecurring });
+    const { concept, amount, category, date, color, isRecurring } = req.body;
+    const newExpense = await Expense.create({ concept, amount, category, date, color, isRecurring });
     res.status(201).json(newExpense);
   } catch (error) {
     res.status(500).json({ message: 'Cannot post expenses', error: error.message });

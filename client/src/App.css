@@ -180,6 +180,10 @@
   padding: 10px 20px;
 }
 
+.modal form #color {
+  padding: 1px;
+}
+
 .modal label {
   opacity: .4;
 }

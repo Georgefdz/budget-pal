@@ -1,8 +1,6 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import categoryColors from "./config/categoryColors";
-import bgCategoryColors from "./config/bgCategoryColors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -33,9 +31,14 @@ const centerTextPlugin = {
 
 ChartJS.register(centerTextPlugin);
 
-function Graphs({ expenses }) {
+function Graphs({ expenses, categoriesWithColors }) {
   const categories = expenses.reduce((acc, expense) => {
-    acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
+    const color = categoriesWithColors[expense.category]?.color || "#000000";
+    if (!acc[expense.category]) {
+      acc[expense.category] = { total: 0, color };
+    }
+    acc[expense.category].total += parseFloat(expense.amount);
+    // console.log(`Category: ${expense.category}, Color: ${color}`);
     return acc;
   }, {});
 
@@ -49,14 +52,12 @@ function Graphs({ expenses }) {
     datasets: [
       {
         label: "Expenses by Category $",
-        data: Object.values(categories),
-        backgroundColor: Object.keys(categories).map(
-          (cat) => categoryColors[cat]
-        ),
-        hoverBackgroundColor: Object.keys(categories).map(
-          (cat) => bgCategoryColors[cat]
-        ),
-        total: totalAmount.toFixed(2),
+        data: Object.values(categories).map((cat) => cat.total),
+        backgroundColor: Object.values(categories).map((cat) => cat.color),
+        hoverBackgroundColor: Object.values(categories).map((cat) => cat.color),
+        total: expenses
+          .reduce((total, expense) => total + expense.amount, 0)
+          .toFixed(2),
       },
     ],
   };

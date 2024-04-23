@@ -24,6 +24,11 @@ const Expense = sequelize.define('Expense', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  color: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    // defaultValue: "#00587D",
+  },
   date: {
     type: DataTypes.DATEONLY,
     allowNull: false,

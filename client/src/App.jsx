@@ -20,6 +20,7 @@ function App() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [showRecurring, setShowRecurring] = useState(false);
+  const [categoriesWithColors, setCategoriesWithColors] = useState({});
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -27,8 +28,9 @@ function App() {
         const response = await fetch("http://localhost:3000/expenses");
         if (response.ok) {
           const fetchedExpenses = await response.json();
-          console.log(fetchedExpenses);
+          console.log("Fetched Expenses:", fetchedExpenses);
           setExpenses(fetchedExpenses);
+          updateCategoriesWithColors(fetchedExpenses, {});
         } else {
           throw new Error("Failed to fetch expenses");
         }
@@ -58,6 +60,7 @@ function App() {
 
   const addExpense = async (expense) => {
     try {
+      console.log("expenseeee: ", expense);
       const response = await fetch("http://localhost:3000/expenses", {
         method: "POST",
         headers: {
@@ -65,9 +68,23 @@ function App() {
         },
         body: JSON.stringify(expense),
       });
+      console.log("🚀 ~ addExpense ~ response:", response);
       if (response.ok) {
+        console.log("response OK");
         const newExpense = await response.json();
         setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+        updateCategoriesWithColors(
+          [...expenses, newExpense],
+          categoriesWithColors
+        );
+        if (newCategory) {
+          console.log("🚀 ~ addExpense ~ newCategory:", newCategory);
+          setCategoriesWithColors({
+            ...categoriesWithColors,
+            [newCategory]: { color: newColor },
+          });
+        }
+
         handleModalClose();
       } else {
         const errorResponse = await response.json();
@@ -126,13 +143,36 @@ function App() {
     })
     .filter((expense) => (showRecurring ? expense.isRecurring : true));
 
-  console.log("Filtered Expenses: ", filteredExpenses);
-  console.log("Show Recurring State: ", showRecurring);
+  const updateCategoriesWithColors = (
+    expenses,
+    initialCategoriesWithColors = {}
+  ) => {
+    console.log("cat expensess:", expenses);
+    const newCategoriesWithColors = expenses.reduce((acc, expense) => {
+      if (!acc[expense.category]) {
+        // console.log(
+        //   `Assigning color ${expense.color} to category ${expense.category}`
+        // );
+        acc[expense.category] = { color: expense.color };
+      }
+      return acc;
+    }, initialCategoriesWithColors);
+    setCategoriesWithColors(newCategoriesWithColors);
+    // console.log(
+    //   "Updated Categories with Colors Map: ",
+    //   newCategoriesWithColors
+    // );
+  };
+
+  // console.log("Filtered Expenses: ", filteredExpenses);
+  // console.log("Show Recurring State: ", showRecurring);
+  // console.log("Categories with Colors Map: ", categoriesWithColors);
 
   return (
     <>
       <div className="main-container">
         <Header
+          expenses={expenses}
           onAddExpense={handleModalOpen}
           onCategoryChange={handleCategoryChange}
           selectedCategory={selectedCategory}
@@ -147,13 +187,18 @@ function App() {
         />
         <Expenses
           expenses={filteredExpenses}
+          categoriesWithColors={categoriesWithColors}
           onDeleteExpense={handleDeleteExpense}
         />
-        <Graphs expenses={filteredExpenses} />
+        <Graphs
+          expenses={filteredExpenses}
+          categoriesWithColors={categoriesWithColors}
+        />
         <AddExpense
           isOpen={isModalOpen}
           onClose={handleModalClose}
           onAddExpense={addExpense}
+          categoriesWithColors={categoriesWithColors}
         />
       </div>
     </>

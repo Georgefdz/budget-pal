@@ -1,35 +1,42 @@
 import { useState } from "react";
 
-function AddExpense({ isOpen, onClose, onAddExpense }) {
+function AddExpense({ isOpen, onClose, onAddExpense, categoriesWithColors }) {
+  console.log("🚀 ~ AddExpense ~ categoriesWithColors:", categoriesWithColors);
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [newCategory, setNewCategory] = useState("");
+  const [newCategoryColor, setNewCategoryColor] = useState("");
   const [date, setDate] = useState("");
   const [isRecurring, setIsRecurring] = useState(false);
   const [concept, setConcept] = useState("");
+  const categories = Object.keys(categoriesWithColors || {});
+  console.log("🚀 ~ AddExpense ~ categories:", categories);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submission has started");
-    try {
-      const expense = { concept, amount, category, date, isRecurring };
-      console.log("Sending expense: ", expense);
-      const response = await fetch("http://localhost:3000/expenses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(expense),
-      });
-      if (response.ok) {
-        const newExpense = await response.json();
-        console.log("Expense was added successfully: ", newExpense);
-        onClose();
-      } else {
-        throw new Error("Failed to add expense");
-      }
-    } catch (error) {
-      console.error("Error adding expense: ", error);
-    }
+    let finalCategory = category === "new" ? newCategory : category;
+    console.log("🚀 ~ handleSubmit ~ finalCategory:", finalCategory);
+    console.log("🚀 ~ handleSubmit ~ newCategory:", newCategory);
+    console.log("🚀 ~ handleSubmit ~ category:", category);
+    let finalColor =
+      category === "new"
+        ? newCategoryColor
+        : categoriesWithColors[category].color;
+    console.log("🚀 ~ handleSubmit ~ finalColor:", finalColor);
+    console.log("🚀 ~ handleSubmit ~ newCategoryColor:", newCategoryColor);
+
+    const expense = {
+      concept,
+      amount,
+      category: finalCategory,
+      color: finalColor,
+      date,
+      isRecurring,
+    };
+
+    console.log("Here is the color", expense.color);
+    onAddExpense(expense);
+    onClose();
   };
 
   if (!isOpen) {
@@ -54,6 +61,7 @@ function AddExpense({ isOpen, onClose, onAddExpense }) {
           <label htmlFor="amount">Amount</label>
           <input
             type="number"
+            id="amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="Amount"
@@ -69,10 +77,35 @@ function AddExpense({ isOpen, onClose, onAddExpense }) {
             <option value="" disabled>
               - Select Category -
             </option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Transport">Transport</option>
-            <option value="Food">Food</option>
+            {categories.map((cat) => {
+              console.log("🚀 ~ {categories.map ~ cat:", cat);
+              return (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              );
+            })}
+            <option value="new">Create new category...</option>
           </select>
+          {category === "new" && (
+            <>
+              <input
+                type="text"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                placeholder="New Category Name"
+                required
+              />
+              <input
+                id="color"
+                type="color"
+                value={newCategoryColor}
+                onChange={(e) => setNewCategoryColor(e.target.value)}
+                placeholder="Category Color"
+                required
+              />
+            </>
+          )}
           <label htmlFor="date">Date</label>
           <input
             type="date"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -13,8 +13,15 @@ function Header({
   onDateRangeChange,
   onToggleRecurring,
   onToggleGeneral,
+  expenses,
 }) {
   const [calendarVisible, setCalendarVisible] = useState(false);
+  const [categories, setCategories] = useState(["all"]);
+
+  useEffect(() => {
+    const uniqueCategories = new Set(expenses.map((exp) => exp.category));
+    setCategories(["all", ...uniqueCategories]);
+  }, [expenses]);
 
   const toggleCalendar = () => {
     setCalendarVisible(!calendarVisible);
@@ -44,7 +51,7 @@ function Header({
                 }
               }}
             >
-              <option value="all">All Time</option>
+              <option value="All">All Time</option>
               <option value="day">Today</option>
               <option value="week">This Week</option>
               <option value="month">This Month</option>
@@ -70,15 +77,14 @@ function Header({
 
             <label htmlFor="category">Category</label>
             <select
-              name="category"
-              id="category"
               value={selectedCategory}
               onChange={(e) => onCategoryChange(e.target.value)}
             >
-              <option value="all">All</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Transport">Transport</option>
-              <option value="Food">Food</option>
+              {categories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
             </select>
           </form>
         </div>

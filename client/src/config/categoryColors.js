@@ -1,7 +1,10 @@
 const categoryColors = {
-  Entertainment: "#00587D",
-  Transport: "#007db3",
-  Food: "#bfecff",
+  one: "#00587D",
+  two: "#007db3",
+  three: "#bfecff",
+  four: "#4BC0C0",
+  five: "#9966FF",
+  six: "#FF9F40"
 };
 
 
