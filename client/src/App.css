@@ -82,6 +82,11 @@
   background-color: hsl(0, 100%, 99%);
 }
 
+#no-expenses {
+  margin-top: 20px;
+  text-align: center;
+}
+
 .expenses-container::-webkit-scrollbar {
   display: none;
 }

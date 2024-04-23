@@ -54,7 +54,7 @@ function Graphs({ expenses, categoriesWithColors }) {
         label: "Expenses by Category $",
         data: Object.values(categories).map((cat) => cat.total),
         backgroundColor: Object.values(categories).map((cat) => cat.color),
-        hoverBackgroundColor: Object.values(categories).map((cat) => cat.color),
+        // hoverBackgroundColor: Object.values(categories).map((cat) => cat.color),
         total: expenses
           .reduce((total, expense) => total + expense.amount, 0)
           .toFixed(2),

@@ -30,45 +30,51 @@ function Expenses({ expenses, categoriesWithColors, onDeleteExpense }) {
 
   return (
     <>
-      <div className="expenses-container">
-        {expenses.map((expense, index) => (
-          <div key={index} className="expense-items">
-            {expense.isRecurring && (
-              <img
-                src={recurringIcon}
-                alt="Recurring"
-                style={{ marginRight: "90px", cursor: "pointer" }}
-                className="recurringIcon"
-              />
-            )}
-            <p id="amount">${expense.amount}</p>
-            <p id="category">
-              <span
-                style={{
-                  height: "20px",
-                  width: "20px",
-                  backgroundColor: getCategoryColor(expense.category),
-                  display: "inline-block",
-                  borderRadius: "50%",
-                  marginRight: "5px",
-                }}
-              ></span>
-              {/* {expense.category} */}
-              {expense.concept}
-            </p>
-            <p id="date">
-              {expense.date}{" "}
-              <img
-                src={removeIcon}
-                alt="Remove"
-                style={{ marginLeft: "10px", cursor: "pointer" }}
-                onClick={() => handleDelete(expense.id)}
-                className="removeIcon"
-              />{" "}
-            </p>
-          </div>
-        ))}
-      </div>
+      {expenses.length === 0 ? (
+        <div className="expenses-container">
+          <h1 id="no-expenses">Please add expenses.</h1>
+        </div>
+      ) : (
+        <div className="expenses-container">
+          {expenses.map((expense, index) => (
+            <div key={index} className="expense-items">
+              {expense.isRecurring && (
+                <img
+                  src={recurringIcon}
+                  alt="Recurring"
+                  style={{ marginRight: "90px", cursor: "pointer" }}
+                  className="recurringIcon"
+                />
+              )}
+              <p id="amount">${expense.amount}</p>
+              <p id="category">
+                <span
+                  style={{
+                    height: "20px",
+                    width: "20px",
+                    backgroundColor: getCategoryColor(expense.category),
+                    display: "inline-block",
+                    borderRadius: "50%",
+                    marginRight: "5px",
+                  }}
+                ></span>
+                {/* {expense.category} */}
+                {expense.concept}
+              </p>
+              <p id="date">
+                {expense.date}{" "}
+                <img
+                  src={removeIcon}
+                  alt="Remove"
+                  style={{ marginLeft: "10px", cursor: "pointer" }}
+                  onClick={() => handleDelete(expense.id)}
+                  className="removeIcon"
+                />{" "}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }
