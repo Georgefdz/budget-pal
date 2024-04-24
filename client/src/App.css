@@ -80,6 +80,7 @@
   height: 55vh;
   overflow: scroll;
   background-color: hsl(0, 100%, 99%);
+  box-shadow: #00587D 0px 0px 2px;
 }
 
 #no-expenses {
