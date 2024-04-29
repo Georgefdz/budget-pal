@@ -14,9 +14,12 @@ function Expenses({ expenses, categoriesWithColors, onDeleteExpense }) {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this expense?")) {
       try {
-        const response = await fetch(`http://localhost:3000/expenses/${id}`, {
-          method: "DELETE",
-        });
+        const response = await fetch(
+          `https://budget-pal.fly.dev/expenses/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         if (response.ok) {
           onDeleteExpense(id);
         } else {
