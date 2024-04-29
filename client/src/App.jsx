@@ -60,7 +60,7 @@ function App() {
   const addExpense = async (expense) => {
     try {
       console.log("expenseeee: ", expense);
-      const response = await fetch("http://localhost:3000/expenses", {
+      const response = await fetch(`https://budget-pal.fly.dev/expenses`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
