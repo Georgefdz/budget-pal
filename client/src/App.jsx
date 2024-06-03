@@ -24,7 +24,12 @@ function App() {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const response = await fetch("https://budget-pal-server.onrender.com/expenses");
+        const response = await fetch("https://budget-pal-server.onrender.com/expenses", {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
         if (response.ok) {
           const fetchedExpenses = await response.json();
           console.log("Fetched Expenses:", fetchedExpenses);
