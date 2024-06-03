@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3010;
 // Middleware
 app.use(cors({
   origin: 'https://budget-pal-navy.vercel.app',
-  methods: 'GET, POST, DELETE, PUT, OPTIONS',
+  methods: 'GET,POST,DELETE,PUT,OPTIONS',
   allowedHeaders: 'Content-Type,Authorization'
 }));
 app.use(express.json());
