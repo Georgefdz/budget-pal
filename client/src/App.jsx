@@ -24,7 +24,7 @@ function App() {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const response = await fetch("http://localhost:3000/expenses");
+        const response = await fetch("http://localhost:3010/expenses");
         if (response.ok) {
           const fetchedExpenses = await response.json();
           console.log("Fetched Expenses:", fetchedExpenses);
