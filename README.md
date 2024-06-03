@@ -1,6 +1,6 @@
-# Expense Tracker Application
+# Budget Pal
 
-This application is designed to help users manage their personal finances by tracking expenses. It allows users to add, delete, and view expenses categorized by type and date. This README provides instructions on how to set up and run the application locally.
+Budget Pal is an application designed to help users manage their personal finances by tracking expenses. It allows users to add, delete, and view expenses categorized by type and date. This README provides instructions on how to set up and run the application locally.
 
 ## Prerequisites
 
