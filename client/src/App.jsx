@@ -24,7 +24,7 @@ function App() {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const response = await fetch("http://localhost:3010/expenses");
+        const response = await fetch("https://budget-pal-server.onrender.com/expenses");
         if (response.ok) {
           const fetchedExpenses = await response.json();
           console.log("Fetched Expenses:", fetchedExpenses);
@@ -60,7 +60,7 @@ function App() {
   const addExpense = async (expense) => {
     try {
       console.log("expenseeee: ", expense);
-      const response = await fetch(`https://budget-pal.fly.dev/expenses`, {
+      const response = await fetch(`https://budget-pal-server.onrender.com/expenses`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

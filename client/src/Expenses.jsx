@@ -15,7 +15,7 @@ function Expenses({ expenses, categoriesWithColors, onDeleteExpense }) {
     if (window.confirm("Are you sure you want to delete this expense?")) {
       try {
         const response = await fetch(
-          `https://localhost:3010/expenses/${id}`,
+          `https://budget-pal-server.onrender.com/expenses/${id}`,
           {
             method: "DELETE",
           }
