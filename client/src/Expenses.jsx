@@ -18,6 +18,9 @@ function Expenses({ expenses, categoriesWithColors, onDeleteExpense }) {
           `https://budget-pal-server.onrender.com/expenses/${id}`,
           {
             method: "DELETE",
+            headers: {
+              'Content-Type': 'application.json',
+            }
           }
         );
         if (response.ok) {
