@@ -4,7 +4,7 @@ const { Expense } = require('./models');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.send('Hey');
+  res.send('Server is running');
 });
 
 router.get('/expenses', async (req, res) => {
